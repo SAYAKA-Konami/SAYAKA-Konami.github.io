@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Chain of Responsibility Pattern - Welcome to my blog!</title><meta name="Description" content="Perhaps these article here can also help you."><meta property="og:title" content="Chain of Responsibility Pattern" />
+<meta property="og:description" content="借助Spring实现责任链 需求 对请求注册的数据做一些前置处理 这个需求很常见。而且Spring也提供了相应的注解来解决此类问题。但注解通常只负" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://SAYAKA-Konami.github.io/chain-of-responsibility-pattern/" /><meta property="og:image" content="https://SAYAKA-Konami.github.io/head.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-11-26T23:00:57+08:00" />
+<meta property="article:modified_time" content="2022-11-26T23:00:57+08:00" /><meta property="og:site_name" content="我的网站" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://SAYAKA-Konami.github.io/head.png"/>
+
+<meta name="twitter:title" content="Chain of Responsibility Pattern"/>
+<meta name="twitter:description" content="借助Spring实现责任链 需求 对请求注册的数据做一些前置处理 这个需求很常见。而且Spring也提供了相应的注解来解决此类问题。但注解通常只负"/>
+<meta name="application-name" content="我的网站">
+<meta name="apple-mobile-web-app-title" content="我的网站"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://SAYAKA-Konami.github.io/chain-of-responsibility-pattern/" /><link rel="prev" href="https://SAYAKA-Konami.github.io/checkidentify/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Chain of Responsibility Pattern",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/SAYAKA-Konami.github.io\/chain-of-responsibility-pattern\/"
+        },"genre": "posts","wordcount":  1692 ,
+        "url": "https:\/\/SAYAKA-Konami.github.io\/chain-of-responsibility-pattern\/","datePublished": "2022-11-26T23:00:57+08:00","dateModified": "2022-11-26T23:00:57+08:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "SAYAKA"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Welcome to my blog!">SAYAKA &amp; Konami</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Welcome to my blog!">SAYAKA &amp; Konami</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Chain of Responsibility Pattern</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>SAYAKA</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-11-26">2022-11-26</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1692 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;4 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="true">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#需求">需求</a>
+      <ul>
+        <li><a href="#对请求注册的数据做一些前置处理">对请求注册的数据做一些前置处理</a></li>
+      </ul>
+    </li>
+    <li><a href="#解耦">解耦</a></li>
+    <li><a href="#面向接口编程">面向接口编程</a>
+      <ul>
+        <li><a href="#你可以把它看成一个链表">你可以把它看成一个链表</a></li>
+        <li><a href="#把它当成链表来实现">把它当成链表来实现</a></li>
+        <li><a href="#子类会长什么样">子类会长什么样？</a></li>
+        <li><a href="#怎么把它们组装起来">怎么把它们组装起来？</a></li>
+      </ul>
+    </li>
+    <li><a href="#乱七八糟的看完了好处呢">乱七八糟的看完了，好处呢？</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h1>借助Spring实现责任链</h1>
+<h2 id="需求">需求</h2>
+<h3 id="对请求注册的数据做一些前置处理">对请求注册的数据做一些前置处理</h3>
+<p>这个需求很常见。而且Spring也提供了相应的注解来解决此类问题。但注解通常只负责解决格式上的问题。像不允许重名、不允许重复注册这类需要借助数据库来实现的功能就只能在代码层面来解决了。</p>
+<h2 id="解耦">解耦</h2>
+<p>设计模式的出现很大程度上都是为了解耦。</p>
+<p>面向对象编程提倡的一个关键的点是开闭原则。即对修改关闭，但对扩展开放（<del>emmmm有些机翻的味道，大概知道什么意思就行</del>）。</p>
+<p>所以在数据的前置校验中，我不希望把逻辑直接添加到注册的功能中。更希望的是用一行代码来执行前置处理。把前置处理的逻辑都放在幕后。</p>
+<p>最后的代码长这样：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"> <span class="kd">public</span> <span class="n">CommonResult</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="nf">register</span><span class="o">(</span><span class="n">UserDto</span> <span class="n">userDto</span><span class="o">){</span>
+</span></span><span class="line"><span class="cl">        <span class="n">CommonResult</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">handle</span> <span class="o">=</span> <span class="n">handleRegister</span><span class="o">.</span><span class="na">handle</span><span class="o">(</span><span class="n">userDto</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">handle</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="k">return</span> <span class="n">handle</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">       	<span class="c1">// 省略注册的逻辑实现
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="面向接口编程">面向接口编程</h2>
+<blockquote>
+<p>其实初学的时候完全不能理解为什么要这么做，感觉很多此一举。根据后来的经验发现，觉得多此一举而又被业界承认的观点往往是为了方便某一场景。</p>
+</blockquote>
+<h3 id="你可以把它看成一个链表">你可以把它看成一个链表</h3>
+<p>事实上责任链这个名字也暗含着这层意思。数据从链的这一头出发，途径各个过滤器。就好像在遍历链表一样。</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/%e8%b4%a3%e4%bb%bb%e9%93%be.jpg"
+        data-srcset="/%e8%b4%a3%e4%bb%bb%e9%93%be.jpg, /%e8%b4%a3%e4%bb%bb%e9%93%be.jpg 1.5x, /%e8%b4%a3%e4%bb%bb%e9%93%be.jpg 2x"
+        data-sizes="auto"
+        alt="/责任链.jpg"
+        title="image-20221126231316185" /></p>
+<p>中途如果不符合某个过滤器的“心思”，那么就会遭受它的“制裁”。或是对被过滤的东西做修剪，最糟糕的情况下会直接将其丢弃。就像流水线上的空盒子会被检测机器或人工丢弃一样。</p>
+<h3 id="把它当成链表来实现">把它当成链表来实现</h3>
+<p>我们可以定义一个抽象类。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">HandleRegister</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">protected</span> <span class="n">HandleRegister</span> <span class="n">next</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">abstract</span> <span class="n">CommonResult</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="nf">handle</span><span class="o">(</span><span class="n">UserDto</span> <span class="n">userDto</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setNext</span><span class="o">(</span><span class="n">HandleRegister</span> <span class="n">handleRegister</span><span class="o">){</span>
+</span></span><span class="line"><span class="cl">        <span class="n">next</span> <span class="o">=</span> <span class="n">handleRegister</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">CommonResult</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="nf">pass</span><span class="o">(</span><span class="n">HandleRegister</span> <span class="n">handleRegister</span><span class="o">,</span> <span class="n">UserDto</span> <span class="n">userDto</span><span class="o">){</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">handleRegister</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span> <span class="k">return</span> <span class="n">handleRegister</span><span class="o">.</span><span class="na">handle</span><span class="o">(</span><span class="n">userDto</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这个抽象类定义了（请记住这里是定义，毕竟抽象类就是用来定义或者搭建一个类的基础骨架的。至于为什么还请继续看下去。）一个<code>next</code>字段。它的意思是指当前过滤器的下一个过滤器。</p>
+<p>作为一个过滤器，他们都有一个名为“<strong>过滤</strong>”的举动。只是不同的过滤器的执行逻辑不同。所以我们把<code>handle</code>的实现交给子类。</p>
+<p>你可能会很好奇<code>pass(HandleRegister handleRegister, UserDto userDto)</code>方法是用来干什么的。是的，这就是为什么我不直接采用接口来约定“<strong>过滤</strong>”这一举动的原因。</p>
+<p>假设没有这个方法，那每一个子类在执行完过滤逻辑之后应当怎么做呢？</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">// 执行过滤逻辑
+</span></span><span class="line"><span class="cl">doFilter();
+</span></span><span class="line"><span class="cl">// 假设被过滤的数据安全的度过了这个过滤器
+</span></span><span class="line"><span class="cl">// 如果这个过滤器是整条链上的最后一个节点，那么证明被过滤的数据安全的度过了审核
+</span></span><span class="line"><span class="cl">if (next == null) return true;
+</span></span><span class="line"><span class="cl">// 不然的话就交给下一个过滤器
+</span></span><span class="line"><span class="cl">else next.handle(data);
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>可以看到，每个执行器执行过滤之后都要做相同的“动作”——把待过滤的东西交给下一个。</p>
+<p>既然它们这个动作都一样，那我们就可以将这个动作抽象出来。把它看成过滤器应当具有的一个“行为”。</p>
+<p>所以就有了上面代码中的<code>pass(HandleRegister handleRegister, UserDto userDto)</code>。它其实就是这个<strong>传递</strong>行为的定义！</p>
+<h3 id="子类会长什么样">子类会长什么样？</h3>
+<p>让我们来看看校验重复昵称的过滤器：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Component</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CheckName</span> <span class="kd">extends</span> <span class="n">HandleRegister</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Autowired</span>
+</span></span><span class="line"><span class="cl">    <span class="n">UserDao</span> <span class="n">userDao</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">CommonResult</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="nf">handle</span><span class="o">(</span><span class="n">UserDto</span> <span class="n">userDto</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="n">userDao</span><span class="o">.</span><span class="na">countByName</span><span class="o">(</span><span class="n">userDto</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">count</span> <span class="o">==</span> <span class="n">1</span><span class="o">)</span> <span class="k">return</span> <span class="n">CommonResult</span><span class="o">.</span><span class="na">failed</span><span class="o">(</span><span class="n">REPEAT_NAME</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span> <span class="k">return</span> <span class="n">pass</span><span class="o">(</span><span class="n">next</span><span class="o">,</span> <span class="n">userDto</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>需要强调的是，每个子类我们都会将其放置到IOC容器中。毕竟本章的标题是“借助<strong>Spring</strong>”。</li>
+</ul>
+<p>可以看到，子类只需要实现“<strong>过滤</strong>”的逻辑即可。</p>
+<ul>
+<li>这里不要忘记了。每个子类都还从抽象类中继承者一个<code>next</code>和一个<code>setNext()</code>方法。</li>
+</ul>
+<h3 id="怎么把它们组装起来">怎么把它们组装起来？</h3>
+<p>接下来就需要借助Spring的能力了。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Configuration</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">InitHandleChain</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Autowired</span>
+</span></span><span class="line"><span class="cl">    <span class="n">List</span><span class="o">&lt;</span><span class="n">HandleRegister</span><span class="o">&gt;</span> <span class="n">handleRegisters</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Bean</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&#34;registerChain&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">HandleRegister</span> <span class="nf">buildFirst</span><span class="o">(){</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">handleRegisters</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">-</span> <span class="n">1</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">handleRegisters</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span><span class="o">).</span><span class="na">setNext</span><span class="o">(</span><span class="n">handleRegisters</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">1</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">handleRegisters</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">0</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>由于子类都是继承自同一抽象类。所以它们的“类型”是一致的。我们可以借助Spring将它们一并注入到打造链条的地方。（Spring真的是一个非常好的框架！！）</p>
+<p><code>buildFirst</code>的逻辑非常的简单。就是组装过滤器，让他们形成一个链条并且在最后返回链条的头指针！</p>
+<h2 id="乱七八糟的看完了好处呢">乱七八糟的看完了，好处呢？</h2>
+<p>如果你还记得我前面说过的话的话，你应该可以发现。如果在之后的时间中你突发奇想或者被迫需要加入或删除一个过滤器的话。你完全不需要动注册方法中的代码。只需要新建一个过滤器或者删掉一个过滤器。为此你可以把你更多的精力放在<strong>过滤</strong>的逻辑上而不是重新到业务代码中阅读并定位你究竟得对代码做怎样的删除或修改。</p>
+<p>如果你是一个规划能力较弱的人——就如同我一样。在写之前没有考虑到所有情况的话，那么你会发现开闭原则拯救了你！</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-11-26</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/chain-of-responsibility-pattern/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://SAYAKA-Konami.github.io/chain-of-responsibility-pattern/" data-title="Chain of Responsibility Pattern" data-via="xxxx"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://SAYAKA-Konami.github.io/chain-of-responsibility-pattern/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://SAYAKA-Konami.github.io/chain-of-responsibility-pattern/" data-title="Chain of Responsibility Pattern"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://SAYAKA-Konami.github.io/chain-of-responsibility-pattern/" data-title="Chain of Responsibility Pattern"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://SAYAKA-Konami.github.io/chain-of-responsibility-pattern/" data-title="Chain of Responsibility Pattern"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/checkidentify/" class="prev" rel="prev" title="MCSW-Verify user identity"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>MCSW-Verify user identity</a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.106.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">SAYAKA</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","maxResultLength":10,"noResultsFound":"No results found","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>
