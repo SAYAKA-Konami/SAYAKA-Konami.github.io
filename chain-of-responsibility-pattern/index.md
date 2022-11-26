@@ -146,4 +146,6 @@ public class InitHandleChain {
 
 如果你是一个规划能力较弱的人——就如同我一样。在写之前没有考虑到所有情况的话，那么你会发现开闭原则拯救了你！
 
+> 哦对了，上面的代码都是我在MCSW项目中的写的。如果你感兴趣的话，就到我[主页](https://github.com/SAYAKA-Konami/MCSW)去看看吧
+
 
