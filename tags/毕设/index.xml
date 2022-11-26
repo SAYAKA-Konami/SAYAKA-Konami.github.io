@@ -1,0 +1,16 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>毕设 - Tag - Welcome to my blog!</title>
+        <link>https://SAYAKA-Konami.github.io/tags/%E6%AF%95%E8%AE%BE/</link>
+        <description>毕设 - Tag - Welcome to my blog!</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>katohuge@outlook.com (SAYAKA)</managingEditor>
+            <webMaster>katohuge@outlook.com (SAYAKA)</webMaster><lastBuildDate>Fri, 25 Nov 2022 16:33:55 &#43;0800</lastBuildDate><atom:link href="https://SAYAKA-Konami.github.io/tags/%E6%AF%95%E8%AE%BE/" rel="self" type="application/rss+xml" /><item>
+    <title>MCSW-Verify user identity</title>
+    <link>https://SAYAKA-Konami.github.io/checkidentify/</link>
+    <pubDate>Fri, 25 Nov 2022 16:33:55 &#43;0800</pubDate>
+    <author>SAYAKA</author>
+    <guid>https://SAYAKA-Konami.github.io/checkidentify/</guid>
+    <description><![CDATA[MCSW--Chapter One MCSW面向的用户 我希望打造的是一个面向学校内部的讨论平台。考虑的主要因素如下： 从宏观角度出发，毕业生的去向和学校的排名是息息相关的。虽]]></description>
+</item>
+</channel>
+</rss>

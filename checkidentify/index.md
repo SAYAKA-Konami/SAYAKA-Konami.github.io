@@ -1,4 +1,4 @@
-# MCSW-Check identify of user
+# MCSW-Verify user identity
 
 
 <h1>MCSW--Chapter One</h1>
@@ -198,4 +198,44 @@ function decryptedString(key, s)
     }
 ```
 
+### 用PostWomen模拟登录
+
+![image-5](/信息门户登录成功.jpg)
+
+可以看到返回的结构是浏览器渲染信息门户所需要的HTML文件。证明这种操作是可行的。
+
+### 踩坑
+
+PostWomen其实是我在谷歌商店中找到的插件。也就是说它请求时会附带浏览器的一些信息。
+
+![image-20221126181039213](/postwomen.jpg)
+
+如果在本地采用Postman或ApiPost软件提供的接口调试软件。返回的结果则是登录页面的HTML文件。
+
+所以在代码中做登录请求时还需要将浏览器的参数`user-agent`附加在请求头上。
+
+```java
+  @Test
+    public void testLogin(){
+        CrawlerUtil crawlerUtil = new CrawlerUtil();
+//        GetRSAPasswdUtil getRSAPasswdUtil = new GetRSAPasswdUtil();
+        Map<String, Object> map = crawlerUtil.getHtml();
+        map.put("username", "201925710123");
+        map.put("password", "44cc0a532aa509c42c1a66...");
+        int s = HttpRequest.post("https://cas.scau.edu.cn/lyuapServer/login")
+                .header("Connection", "keep-alive")//头信息，多个头信息多次调用此方法即可
+                .header("Accept", "*/*")
+                .header("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
+                .header("X-Requested-With", "XMLHttpRequest")
+                .header("user-agent","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36")
+                .form(map)//表单内容
+                .execute().getStatus();
+        System.out.println(s);
+```
+
+## END
+
+其实该功能最繁琐的点在于JS的逆向解密。好在登录页面附加的文件数量较少，定位加密代码的时间并没有太长。而最令我头疼的点在于抓包登录接口的相关信息。
+
+我猜测学校的网站是前后端不分离的架构模式。所以登录成功时相应的接口返回的 ***HTTP Status*** 是302。在此之前我未曾接触过这种模式的模拟登录，而踩到的坑让我一开始误以为这种架构下的登录接口在用户登录成功与否都会返回登录界面的HTML文件。
 
