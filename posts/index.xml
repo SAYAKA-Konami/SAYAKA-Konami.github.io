@@ -4,7 +4,15 @@
         <link>https://SAYAKA-Konami.github.io/posts/</link>
         <description>All Posts | Welcome to my blog!</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>katohuge@outlook.com (SAYAKA)</managingEditor>
-            <webMaster>katohuge@outlook.com (SAYAKA)</webMaster><lastBuildDate>Sat, 26 Nov 2022 23:00:57 &#43;0800</lastBuildDate><atom:link href="https://SAYAKA-Konami.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>katohuge@outlook.com (SAYAKA)</webMaster><lastBuildDate>Fri, 02 Dec 2022 20:49:07 &#43;0800</lastBuildDate><atom:link href="https://SAYAKA-Konami.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>Travel</title>
+    <link>https://SAYAKA-Konami.github.io/travel/</link>
+    <pubDate>Fri, 02 Dec 2022 20:49:07 &#43;0800</pubDate>
+    <author>SAYAKA</author>
+    <guid>https://SAYAKA-Konami.github.io/travel/</guid>
+    <description><![CDATA[Clash中的负载均衡 Just follow me now 在配置文件中键入以下内容： 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 parsers: - reg: &#39;slbable$&#39; yaml: append-proxy-groups: - name: ⚖️ 负载均衡-散列 type: load-balance url: &#39;http://www.google.com/generate_204&#39; interval: 300]]></description>
+</item>
+<item>
     <title>Chain of Responsibility Pattern</title>
     <link>https://SAYAKA-Konami.github.io/chain-of-responsibility-pattern/</link>
     <pubDate>Sat, 26 Nov 2022 23:00:57 &#43;0800</pubDate>

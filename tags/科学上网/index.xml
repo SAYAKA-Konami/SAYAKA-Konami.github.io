@@ -1,0 +1,16 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>科学上网 - Tag - Welcome to my blog!</title>
+        <link>https://SAYAKA-Konami.github.io/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/</link>
+        <description>科学上网 - Tag - Welcome to my blog!</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>katohuge@outlook.com (SAYAKA)</managingEditor>
+            <webMaster>katohuge@outlook.com (SAYAKA)</webMaster><lastBuildDate>Fri, 02 Dec 2022 20:49:07 &#43;0800</lastBuildDate><atom:link href="https://SAYAKA-Konami.github.io/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/" rel="self" type="application/rss+xml" /><item>
+    <title>Travel</title>
+    <link>https://SAYAKA-Konami.github.io/travel/</link>
+    <pubDate>Fri, 02 Dec 2022 20:49:07 &#43;0800</pubDate>
+    <author>SAYAKA</author>
+    <guid>https://SAYAKA-Konami.github.io/travel/</guid>
+    <description><![CDATA[Clash中的负载均衡 Just follow me now 在配置文件中键入以下内容： 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 parsers: - reg: &#39;slbable$&#39; yaml: append-proxy-groups: - name: ⚖️ 负载均衡-散列 type: load-balance url: &#39;http://www.google.com/generate_204&#39; interval: 300]]></description>
+</item>
+</channel>
+</rss>
