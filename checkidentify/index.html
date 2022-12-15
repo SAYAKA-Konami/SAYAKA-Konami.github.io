@@ -30,7 +30,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/SAYAKA-Konami.github.io\/checkidentify\/"
-        },"genre": "posts","keywords": "毕设","wordcount":  1918 ,
+        },"genre": "posts","keywords": "毕设","wordcount":  1917 ,
         "url": "https:\/\/SAYAKA-Konami.github.io\/checkidentify\/","datePublished": "2022-11-25T16:33:55+08:00","dateModified": "2022-11-25T16:33:55+08:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
@@ -104,7 +104,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">MCSW-Verify user identity</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>SAYAKA</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-11-25">2022-11-25</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1918 words&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-11-25">2022-11-25</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1917 words&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;4 minutes&nbsp;</div>
         </div><div class="featured-image"><img
         class="lazyload"
@@ -122,10 +122,10 @@
   <ul>
     <li><a href="#账号注册与管理">账号注册与管理</a>
       <ul>
-        <li><a href="#利用http抓包的形式查看登录信息门户所需要的参数及对应的url">利用HTTP抓包的形式查看登录信息门户所需要的参数及对应的URL</a>
+        <li><a href="#抓包查看登录信息门户所需要的参数及对应的url">抓包查看登录信息门户所需要的参数及对应的URL</a>
           <ul>
             <li><a href="#为啥要在前端加密">为啥要在前端加密？</a></li>
-            <li><a href="#返回登录页面查看页面结构">返回登录页面查看页面结构：</a></li>
+            <li><a href="#以下是登录成功后返回的htmljs文件">以下是登录成功后返回的Html、Js文件：</a></li>
           </ul>
         </li>
         <li><a href="#查看html中关于密码的加密措施">查看HTML中关于密码的加密措施</a></li>
@@ -182,7 +182,7 @@
         alt="/信息门户.png"
         title="image-3" /></p>
 <p>由于每个学生的学号都是唯一的。所以可以在用户注册时令其提供相应的账号信息，然后把“鉴别”的任务交给学校官网提供的登录接口。</p>
-<h3 id="利用http抓包的形式查看登录信息门户所需要的参数及对应的url">利用HTTP抓包的形式查看登录信息门户所需要的参数及对应的URL</h3>
+<h3 id="抓包查看登录信息门户所需要的参数及对应的url">抓包查看登录信息门户所需要的参数及对应的URL</h3>
 <p>利用浏览器提供的开发者工具查看点击登录后的HTTP请求：</p>
 <p><img
         class="lazyload"
@@ -219,7 +219,7 @@
 </table>
 <h4 id="为啥要在前端加密">为啥要在前端加密？</h4>
 <p>我猜测应该是为了防止中间人攻击所以先做了一次加密。但是可以肯定的是，既然是在页面发送时就做了加密，那么相应的代码中就会有体现加密的过程。</p>
-<h4 id="返回登录页面查看页面结构">返回登录页面查看页面结构：</h4>
+<h4 id="以下是登录成功后返回的htmljs文件">以下是登录成功后返回的Html、Js文件：</h4>
 <p><img
         class="lazyload"
         src="/svg/loading.min.svg"
