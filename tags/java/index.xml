@@ -4,7 +4,15 @@
         <link>https://SAYAKA-Konami.github.io/tags/java/</link>
         <description>Java - Tag - Welcome to my blog!</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>katohuge@outlook.com (SAYAKA)</managingEditor>
-            <webMaster>katohuge@outlook.com (SAYAKA)</webMaster><lastBuildDate>Sat, 26 Nov 2022 23:00:57 &#43;0800</lastBuildDate><atom:link href="https://SAYAKA-Konami.github.io/tags/java/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>katohuge@outlook.com (SAYAKA)</webMaster><lastBuildDate>Fri, 30 Dec 2022 21:02:23 &#43;0800</lastBuildDate><atom:link href="https://SAYAKA-Konami.github.io/tags/java/" rel="self" type="application/rss+xml" /><item>
+    <title>Concurrent_Queue</title>
+    <link>https://SAYAKA-Konami.github.io/concurrent_queue/</link>
+    <pubDate>Fri, 30 Dec 2022 21:02:23 &#43;0800</pubDate>
+    <author>SAYAKA</author>
+    <guid>https://SAYAKA-Konami.github.io/concurrent_queue/</guid>
+    <description><![CDATA[同步队列（线程池的参数之一） ArrayBlockingQueue 数组实现的阻塞队列。在初始化时就要指定其大小。 出队入队共用一把锁：由于该队列的实现是基于“循环数组”。而循环数]]></description>
+</item>
+<item>
     <title>Chain of Responsibility Pattern</title>
     <link>https://SAYAKA-Konami.github.io/chain-of-responsibility-pattern/</link>
     <pubDate>Sat, 26 Nov 2022 23:00:57 &#43;0800</pubDate>
