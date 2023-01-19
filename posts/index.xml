@@ -4,7 +4,15 @@
         <link>https://SAYAKA-Konami.github.io/posts/</link>
         <description>All Posts | Welcome to my blog!</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>katohuge@outlook.com (SAYAKA)</managingEditor>
-            <webMaster>katohuge@outlook.com (SAYAKA)</webMaster><lastBuildDate>Fri, 30 Dec 2022 21:02:23 &#43;0800</lastBuildDate><atom:link href="https://SAYAKA-Konami.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>katohuge@outlook.com (SAYAKA)</webMaster><lastBuildDate>Thu, 19 Jan 2023 20:48:07 &#43;0800</lastBuildDate><atom:link href="https://SAYAKA-Konami.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>Devops</title>
+    <link>https://SAYAKA-Konami.github.io/devops/</link>
+    <pubDate>Thu, 19 Jan 2023 20:48:07 &#43;0800</pubDate>
+    <author>SAYAKA</author>
+    <guid>https://SAYAKA-Konami.github.io/devops/</guid>
+    <description><![CDATA[MCSW后端项目的自动化打包部署 借助阿里的容器镜像服务 阅读该篇文章时，你应当具有docker的初步使用经验。如简单的运行、编写Dockerf]]></description>
+</item>
+<item>
     <title>Concurrent_Queue</title>
     <link>https://SAYAKA-Konami.github.io/concurrent_queue/</link>
     <pubDate>Fri, 30 Dec 2022 21:02:23 &#43;0800</pubDate>

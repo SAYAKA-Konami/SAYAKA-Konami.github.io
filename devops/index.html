@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Devops - Welcome to my blog!</title><meta name="Description" content="Perhaps these article here can also help you."><meta property="og:title" content="Devops" />
+<meta property="og:description" content="MCSW后端项目的自动化打包部署 借助阿里的容器镜像服务 阅读该篇文章时，你应当具有docker的初步使用经验。如简单的运行、编写Dockerf" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://SAYAKA-Konami.github.io/devops/" /><meta property="og:image" content="https://SAYAKA-Konami.github.io/head.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-01-19T20:48:07+08:00" />
+<meta property="article:modified_time" content="2023-01-19T20:48:07+08:00" /><meta property="og:site_name" content="我的网站" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://SAYAKA-Konami.github.io/head.png"/>
+
+<meta name="twitter:title" content="Devops"/>
+<meta name="twitter:description" content="MCSW后端项目的自动化打包部署 借助阿里的容器镜像服务 阅读该篇文章时，你应当具有docker的初步使用经验。如简单的运行、编写Dockerf"/>
+<meta name="application-name" content="我的网站">
+<meta name="apple-mobile-web-app-title" content="我的网站"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://SAYAKA-Konami.github.io/devops/" /><link rel="prev" href="https://SAYAKA-Konami.github.io/concurrent_queue/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Devops",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/SAYAKA-Konami.github.io\/devops\/"
+        },"genre": "posts","keywords": "jvm, 微服务, 部署","wordcount":  1933 ,
+        "url": "https:\/\/SAYAKA-Konami.github.io\/devops\/","datePublished": "2023-01-19T20:48:07+08:00","dateModified": "2023-01-19T20:48:07+08:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "SAYAKA"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Welcome to my blog!">SAYAKA &amp; Konami</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Welcome to my blog!">SAYAKA &amp; Konami</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Devops</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>SAYAKA</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2023-01-19">2023-01-19</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1933 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;4 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="true">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#借助阿里的容器镜像服务">借助阿里的容器镜像服务</a></li>
+    <li><a href="#我踩的坑">我踩的坑</a>
+      <ul>
+        <li><a href="#踩到的坑">踩到的坑</a></li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul>
+    <li><a href="#cmsconcurrent-mark-sweep---g1garbage-first">CMS（Concurrent Mark Sweep）  🛠️ G1（Garbage First）</a>
+      <ul>
+        <li><a href="#所以g1和cms哪个更好以下仅是我个人的观点">所以G1和CMS哪个更好？（以下仅是我个人的观点）</a>
+          <ul>
+            <li><a href="#为啥g1得在大内存相比cms才会有更好的表现">为啥G1得在大内存相比CMS才会有更好的表现？</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="mcsw后端项目的自动化打包部署">MCSW后端项目的自动化打包部署</h1>
+<h2 id="借助阿里的容器镜像服务">借助阿里的容器镜像服务</h2>
+<blockquote>
+<p>阅读该篇文章时，你应当具有docker的初步使用经验。如简单的运行、编写Dockerfile打包等。</p>
+</blockquote>
+<p><a href="https://cr.console.aliyun.com/cn-heyuan/instance/repositories" target="_blank" rel="noopener noreffer ">点击这里创建吧</a></p>
+<blockquote>
+<p>该服务是免费的，普通用户可以创建三个命名空间。每个命名空间可以创建1000个镜像服务</p>
+</blockquote>
+<p><a href="https://help.aliyun.com/document_detail/60951.html" target="_blank" rel="noopener noreffer ">这里是相应的官方指导文档</a></p>
+<h2 id="我踩的坑">我踩的坑</h2>
+<p>由于我的项目是微服务项目，每个模块都是一个独立的服务。所以如果直接跟着官方给出的<code>Dockerfile</code>进行打包会出现各种各样的问题。</p>
+<p>如下是我的项目结构：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/mcsw%e9%a1%b9%e7%9b%ae%e7%bb%93%e6%9e%84.png"
+        data-srcset="/mcsw%e9%a1%b9%e7%9b%ae%e7%bb%93%e6%9e%84.png, /mcsw%e9%a1%b9%e7%9b%ae%e7%bb%93%e6%9e%84.png 1.5x, /mcsw%e9%a1%b9%e7%9b%ae%e7%bb%93%e6%9e%84.png 2x"
+        data-sizes="auto"
+        alt="/mcsw项目结构.png"
+        title="image-20230119205557652" /></p>
+<p>除了<code>common</code>模块中的内容是一些公共的依赖之外，其他模块都是一个独立的服务。</p>
+<blockquote>
+<p><a href="https://github.com/SAYAKA-Konami/MCSW" target="_blank" rel="noopener noreffer ">项目地址戳这里</a></p>
+</blockquote>
+<p>在阿里文档给出的镜像构建指导中，它建议我们利用<em><strong>Docker</strong></em>在17.05版本之后推出的多阶段构建（<em><strong>multistage build</strong></em>）。在文档中给出的<code>Dockerfile</code>的内容如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="line"><span class="cl"><span class="c"># 这其实是自己构建的Maven镜像。</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">FROM</span><span class="s"> demo-registry-vpc.cn-beijing.cr.aliyuncs.com/demo/maven-base:3.8-openjdk-8 AS builder</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="c"># add pom.xml and source code</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">ADD</span> ./pom.xml pom.xml<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">ADD</span> ./service service/<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="c"># package jar</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">RUN</span> mvn clean package<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="c"># Second stage: minimal runtime environment</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">From</span><span class="s"> demo-registry-vpc.cn-beijing.cr.aliyuncs.com/demo/openjdk:8-jre-alpine</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="c"># copy jar from the first stage</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">COPY</span> --from<span class="o">=</span>builder service/target/service-1.0-SNAPSHOT.jar service-1.0-SNAPSHOT.jar<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">EXPOSE</span><span class="s"> 8080</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">CMD</span> <span class="p">[</span><span class="s2">&#34;java&#34;</span><span class="p">,</span> <span class="s2">&#34;-jar&#34;</span><span class="p">,</span> <span class="s2">&#34;service-1.0-SNAPSHOT.jar&#34;</span><span class="p">]</span><span class="err">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>从第一个<code>From</code>开始到第二个<code>From</code>之间，docker会根据自行构建好的<strong>maven</strong>镜像来下载项目所需的所有依赖。</p>
+<p>而第二个<code>From</code>开始到结束才是真正在构建我们所要发布的服务的镜像。</p>
+<h3 id="踩到的坑">踩到的坑</h3>
+<p>在上述的<code>Dockerfile</code>中，我们可以看到第一阶段需要拷贝项目中的<code>pom.xml</code>文件到容器中。如果将相应的<code>Dockerfile</code>放置在对应的模块下，==我并不知道如何拷贝父<code>pom</code>文件到容器中==。此后在构建过程中在执行<code>mvn install</code>的时候就会提示找不到父<code>pom</code>的错误。</p>
+<p>所以我的做法是将每个模块对应的<code>Dockerfile</code>放在根目录之下，形成的Dockerfile如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="line"><span class="cl"><span class="c"># First stage: complete build environment</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">FROM</span><span class="s"> nanwu/mcsw-maven:v6 AS builder</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="c"># 拷贝整个项目相关的pom文件到容器中</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">ADD</span>  pom.xml pom.xml<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">ADD</span> mcsw-cloud-account/pom.xml mcsw-cloud-account/pom.xml<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">ADD</span> mcsw-cloud-common/pom.xml mcsw-cloud-common/pom.xml<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">ADD</span> mcsw-cloud-gateway/pom.xml mcsw-cloud-gateway/pom.xml<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">ADD</span> mcsw-cloud-homepage/pom.xml mcsw-cloud-homepage/pom.xml<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">ADD</span> mcsw-cloud-offer/pom.xml mcsw-cloud-offer/pom.xml<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">ADD</span> mcsw-cloud-post/pom.xml mcsw-cloud-post/pom.xml<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="c"># To resolve dependencies in a safe way (no re-download when the source code changes)</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">RUN</span>  <span class="nb">cd</span> mcsw-cloud-account<span class="p">;</span>mvn install<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">ADD</span> mcsw-cloud-account/src mcsw-cloud-account/src<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="c"># package jar</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">RUN</span> <span class="nb">cd</span> mcsw-cloud-account<span class="p">;</span>mvn clean package<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="c"># Second stage: minimal runtime environment</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">From</span><span class="s"> openjdk:8-jre-alpine</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="c"># copy jar from the first stage</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">COPY</span> --from<span class="o">=</span>builder mcsw-cloud-account/target/mcsw-cloud-account-1.0-SNAPSHOT.jar mcsw-cloud-account-1.0-SNAPSHOT.jar<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">EXPOSE</span><span class="s"> 8010</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="c"># 以下是启动时指定的JVM参数</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">ENV</span> <span class="nv">JAVA_OPTS</span><span class="o">=</span><span class="s2">&#34;\
+</span></span></span><span class="line"><span class="cl"><span class="s2">-server \
+</span></span></span><span class="line"><span class="cl"><span class="s2">-Xms128m\
+</span></span></span><span class="line"><span class="cl"><span class="s2">-Xmx128m\
+</span></span></span><span class="line"><span class="cl"><span class="s2">-Xss128k\
+</span></span></span><span class="line"><span class="cl"><span class="s2">-XX:+UseConcMarkSweepGC\
+</span></span></span><span class="line"><span class="cl"><span class="s2">-XX:+UseCMSCompactAtFullCollection\
+</span></span></span><span class="line"><span class="cl"><span class="s2">-XX:CMSFullGCsBeforeCompaction=0\
+</span></span></span><span class="line"><span class="cl"><span class="s2">-XX:+HeapDumpOnOutOfMemoryError\
+</span></span></span><span class="line"><span class="cl"><span class="s2">-XX:HeapDumpPath=/ \
+</span></span></span><span class="line"><span class="cl"><span class="s2">-Xloggc:/gc.log \
+</span></span></span><span class="line"><span class="cl"><span class="s2">-XX:+PrintGC\
+</span></span></span><span class="line"><span class="cl"><span class="s2">-XX:+PrintGCDetails\
+</span></span></span><span class="line"><span class="cl"><span class="s2">-XX:+PrintGCTimeStamps&#34;</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">ENTRYPOINT</span> java <span class="si">${</span><span class="nv">JAVA_OPTS</span><span class="si">}</span> -Djava.security.egd<span class="o">=</span>file:/dev/./urandom -jar /mcsw-cloud-account-1.0-SNAPSHOT.jar<span class="err">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="jvm参数的设定">JVM参数的设定</h1>
+<h2 id="cmsconcurrent-mark-sweep---g1garbage-first">CMS（Concurrent Mark Sweep）  🛠️ G1（Garbage First）</h2>
+<p>这其实是一个题外话，但是我还是忍不住想要拿出来说一下。</p>
+<p>细心的小伙伴可能看到了我VM参数设置得很奇怪。首先对于Java这种内存大户来讲，内存的阈值居然限制在了<strong>100M</strong>。而且还配合了很多CMS相关的参数。</p>
+<p>其实这只是出于无奈之举。还请听我辩解：</p>
+<ol>
+<li>我希望我的毕设能够投入使用，哪怕只作用于我们学院内的一部分人。而且我也非常希望能得到我们学院同学的一些就业相关的数据，看一下当下这个“互联网寒冬”究竟能让一个双非一本的学生陷入怎样的境地。</li>
+<li>我所购买的云服务器是腾讯云的新人特惠，50块钱2核2G——很遗憾的是现在两大云厂商都下架了如此具有性价比的服务器。在还要启用<code>Nacos</code>作为服务发现的情形下，我的服务器的内存可用资源捉襟见肘。所以我不得不将各个服务端内存限制在了一个窘迫的地步——这其实也是一个血的教训。如果你想用Java学习并开发一套微服务架构的项目的话，机器资源是一个你必须考虑的点。</li>
+<li>在周志明所著的《深入理解Java虚拟机》一文中写道：当运行内存在6G-8G这个点上G1和CMS的表现可能相差无几（书发版的时间为2020年）。而我所拥有的运行内存远低于这个阈值。所以我毫不犹豫的选择了CMS。</li>
+</ol>
+<h3 id="所以g1和cms哪个更好以下仅是我个人的观点">所以G1和CMS哪个更好？（以下仅是我个人的观点）</h3>
+<p>我会毫不犹豫的支持G1。CMS已经是被官方所抛弃，在JDK9中被标记为过期，在JDK14中被正式移除。如果你有幸用上了现今的长期支持版JDK17，那么你要考虑的应当是在G1、Shenandoah、ZGC中选择一个合适的GC。</p>
+<h4 id="为啥g1得在大内存相比cms才会有更好的表现">为啥G1得在大内存相比CMS才会有更好的表现？</h4>
+<p>由于我们大部分人所采用的环境依然是JDK8。G1虽然很早的就加入了JER的计划之中，不过在JDK8中，对比CMS，G1显然还是一个新生儿。其内存布局采用的是分块的思想，配合相应的预测算法。G1能在回收时做一定的取舍——==优先，或者只==回收垃圾比例大的“块”。以此来控制GC时间。这也是为什么它叫 Garbage First的缘由。</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/G1%e5%86%85%e5%ad%98%e6%a8%a1%e5%9e%8b.png"
+        data-srcset="/G1%e5%86%85%e5%ad%98%e6%a8%a1%e5%9e%8b.png, /G1%e5%86%85%e5%ad%98%e6%a8%a1%e5%9e%8b.png 1.5x, /G1%e5%86%85%e5%ad%98%e6%a8%a1%e5%9e%8b.png 2x"
+        data-sizes="auto"
+        alt="/G1内存模型.png"
+        title="img" /></p>
+<p>但是这是有代价的。分块导致了跨代引用的记录变成了跨“块”引用的记录。G1需要为每一个块都维护一个<code>Remember Set</code>从而来记录其他“块”中对自身的引用的指针。所以G1对于CMS或者更早的Parallel Scavenge都具有更高的空间负载。这个负载通常会占堆大小的==20%甚至更多==。所以在内存资源较少的情况下，还是尽可能的避免使用新生的G1。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2023-01-19</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/devops/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://SAYAKA-Konami.github.io/devops/" data-title="Devops" data-via="xxxx" data-hashtags="jvm,微服务,部署"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://SAYAKA-Konami.github.io/devops/" data-hashtag="jvm"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://SAYAKA-Konami.github.io/devops/" data-title="Devops"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://SAYAKA-Konami.github.io/devops/" data-title="Devops"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://SAYAKA-Konami.github.io/devops/" data-title="Devops"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/jvm/">jvm</a>,&nbsp;<a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">微服务</a>,&nbsp;<a href="/tags/%E9%83%A8%E7%BD%B2/">部署</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/concurrent_queue/" class="prev" rel="prev" title="Concurrent_Queue"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Concurrent_Queue</a></div>
+</div>
+<script src="https://giscus.app/client.js"
+        data-repo="SAYAKA-Konami/SAYAKA-Konami.github.io"
+        data-repo-id="R_kgDOIfsBTw"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOIfsBT84CS51N"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="light"
+        data-lang="zh-CN"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.106.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
+                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">SAYAKA</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/contrib/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","maxResultLength":10,"noResultsFound":"No results found","snippetLength":50,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>
