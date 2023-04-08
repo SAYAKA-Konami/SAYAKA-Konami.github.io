@@ -4,7 +4,15 @@
         <link>https://SAYAKA-Konami.github.io/posts/</link>
         <description>All Posts | Welcome to my blog!</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>katohuge@outlook.com (SAYAKA)</managingEditor>
-            <webMaster>katohuge@outlook.com (SAYAKA)</webMaster><lastBuildDate>Fri, 03 Mar 2023 00:46:01 &#43;0800</lastBuildDate><atom:link href="https://SAYAKA-Konami.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>katohuge@outlook.com (SAYAKA)</webMaster><lastBuildDate>Sun, 09 Apr 2023 00:16:07 &#43;0800</lastBuildDate><atom:link href="https://SAYAKA-Konami.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>JVM Tuning</title>
+    <link>https://SAYAKA-Konami.github.io/jvm-tuning/</link>
+    <pubDate>Sun, 09 Apr 2023 00:16:07 &#43;0800</pubDate>
+    <author>SAYAKA</author>
+    <guid>https://SAYAKA-Konami.github.io/jvm-tuning/</guid>
+    <description><![CDATA[optimize the JVM 这是一篇有关JVM调优的文章。 由于本地编写博客放置图片时较为繁琐。所以我找了一个可以在线编辑的博客网站，如果你感兴的话就戳上面的链接去]]></description>
+</item>
+<item>
     <title>Miscellaneous Note</title>
     <link>https://SAYAKA-Konami.github.io/miscellaneous-note/</link>
     <pubDate>Fri, 03 Mar 2023 00:46:01 &#43;0800</pubDate>

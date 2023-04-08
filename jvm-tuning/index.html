@@ -4,34 +4,34 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
-        <title>Miscellaneous Note - Welcome to my blog!</title><meta name="Description" content="Perhaps these article here can also help you."><meta property="og:title" content="Miscellaneous Note" />
-<meta property="og:description" content="杂记 想象力 我简单的收拾了一下行李，便想到宿友的台式机前玩玩游戏。开机键还未触及前就看到了放在桌上的草稿纸。上面略微整齐的摆着几道算术式和零散" />
+        <title>JVM Tuning - Welcome to my blog!</title><meta name="Description" content="Perhaps these article here can also help you."><meta property="og:title" content="JVM Tuning" />
+<meta property="og:description" content="optimize the JVM 这是一篇有关JVM调优的文章。 由于本地编写博客放置图片时较为繁琐。所以我找了一个可以在线编辑的博客网站，如果你感兴的话就戳上面的链接去" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://SAYAKA-Konami.github.io/miscellaneous-note/" /><meta property="og:image" content="https://SAYAKA-Konami.github.io/head.png"/><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2023-03-03T00:46:01+08:00" />
-<meta property="article:modified_time" content="2023-03-03T00:46:01+08:00" /><meta property="og:site_name" content="我的网站" />
+<meta property="og:url" content="https://SAYAKA-Konami.github.io/jvm-tuning/" /><meta property="og:image" content="https://SAYAKA-Konami.github.io/head.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-04-09T00:16:07+08:00" />
+<meta property="article:modified_time" content="2023-04-09T00:16:07+08:00" /><meta property="og:site_name" content="我的网站" />
 
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://SAYAKA-Konami.github.io/head.png"/>
 
-<meta name="twitter:title" content="Miscellaneous Note"/>
-<meta name="twitter:description" content="杂记 想象力 我简单的收拾了一下行李，便想到宿友的台式机前玩玩游戏。开机键还未触及前就看到了放在桌上的草稿纸。上面略微整齐的摆着几道算术式和零散"/>
+<meta name="twitter:title" content="JVM Tuning"/>
+<meta name="twitter:description" content="optimize the JVM 这是一篇有关JVM调优的文章。 由于本地编写博客放置图片时较为繁琐。所以我找了一个可以在线编辑的博客网站，如果你感兴的话就戳上面的链接去"/>
 <meta name="application-name" content="我的网站">
 <meta name="apple-mobile-web-app-title" content="我的网站"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://SAYAKA-Konami.github.io/miscellaneous-note/" /><link rel="prev" href="https://SAYAKA-Konami.github.io/devops/" /><link rel="next" href="https://SAYAKA-Konami.github.io/jvm-tuning/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://SAYAKA-Konami.github.io/jvm-tuning/" /><link rel="prev" href="https://SAYAKA-Konami.github.io/miscellaneous-note/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
         <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
         <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
-        "headline": "Miscellaneous Note",
+        "headline": "JVM Tuning",
         "inLanguage": "zh-CN",
         "mainEntityOfPage": {
             "@type": "WebPage",
-            "@id": "https:\/\/SAYAKA-Konami.github.io\/miscellaneous-note\/"
-        },"genre": "posts","wordcount":  446 ,
-        "url": "https:\/\/SAYAKA-Konami.github.io\/miscellaneous-note\/","datePublished": "2023-03-03T00:46:01+08:00","dateModified": "2023-03-03T00:46:01+08:00","publisher": {
+            "@id": "https:\/\/SAYAKA-Konami.github.io\/jvm-tuning\/"
+        },"genre": "posts","keywords": "Java, JVM","wordcount":  96 ,
+        "url": "https:\/\/SAYAKA-Konami.github.io\/jvm-tuning\/","datePublished": "2023-04-09T00:16:07+08:00","dateModified": "2023-04-09T00:16:07+08:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
                 "@type": "Person",
@@ -102,50 +102,46 @@
                 <div class="container"><div class="toc" id="toc-auto">
             <h2 class="toc-title">Contents</h2>
             <div class="toc-content" id="toc-content-auto"></div>
-        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Miscellaneous Note</h1><div class="post-meta">
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">JVM Tuning</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>SAYAKA</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2023-03-03">2023-03-03</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;446 words&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2023-04-09">2023-04-09</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;96 words&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;One minute&nbsp;</div>
         </div><div class="details toc" id="toc-static"  data-kept="true">
                 <div class="details-summary toc-title">
                     <span>Contents</span>
                     <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
                 </div>
-                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
-  <ul>
-    <li><a href="#想象力">想象力</a></li>
-  </ul>
-</nav></div>
-            </div><div class="content" id="content"><h1 id="杂记">杂记</h1>
-<h2 id="想象力">想象力</h2>
-<p>我简单的收拾了一下行李，便想到宿友的台式机前玩玩游戏。开机键还未触及前就看到了放在桌上的草稿纸。上面略微整齐的摆着几道算术式和零散的一些词诸如“厕所”、“空调”&hellip;&hellip;我拿起来问我那位考公的宿友，说这行测的草稿会不会有些正式，他说买了台式机的那位宿友要去开麻将馆。我笑出了声，毕竟我没在上面看到租金二字。他说他一年能存大概一万，那位考公的宿友补充道。我再次笑出了声。他说他好像存了二十万，宿友一句话打断了我的笑意，除了和数学运算得出的结果不符之外，还顺带把我倒回了不久前相遇的时候。</p>
-<p>彼时我开玩笑地嫌弃着他几乎快摔碎的手机，并建议他换一个。他倒没接话，只是顺嘴问了句我新买的手机用起来如何。我认真的说了一下优缺点，扭头一看他已然在浏览14pro。我正要想着拼出几句无厘头的话语用于激将，他便付了钱。</p>
-<p>我恼怒的把问题抛到了应试教育的头上。一来是因其害得我丢了些许浪漫——我是指想象力。二来是其害得我知道了这些事情——想象一下一群戴着学士帽的纤夫，你便也会笑出声来。</p>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents"></nav></div>
+            </div><div class="content" id="content"><h1 id="optimize-the-jvm">optimize the JVM</h1>
+<p><a href="https://flowus.cn/139ff811-33c6-4026-aba9-df19bdea2f1b" target="_blank" rel="noopener noreffer ">这是一篇有关JVM调优的文章</a>。</p>
+<blockquote>
+<p>由于本地编写博客放置图片时较为繁琐。所以我找了一个可以在线编辑的博客网站，如果你感兴的话就戳上面的链接去看看吧！💕</p>
+<p>PS：后续的博客都会放置到Flow us中。</p>
+</blockquote>
 </div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">
             <div class="post-info-mod">
-                <span>Updated on 2023-03-03</span>
+                <span>Updated on 2023-04-09</span>
             </div></div>
         <div class="post-info-line">
             <div class="post-info-md"><span>
-                            <a class="link-to-markdown" href="/miscellaneous-note/index.md" target="_blank">Read Markdown</a>
+                            <a class="link-to-markdown" href="/jvm-tuning/index.md" target="_blank">Read Markdown</a>
                         </span></div>
             <div class="post-info-share">
-                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://SAYAKA-Konami.github.io/miscellaneous-note/" data-title="Miscellaneous Note" data-via="xxxx"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://SAYAKA-Konami.github.io/miscellaneous-note/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://SAYAKA-Konami.github.io/miscellaneous-note/" data-title="Miscellaneous Note"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://SAYAKA-Konami.github.io/miscellaneous-note/" data-title="Miscellaneous Note"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://SAYAKA-Konami.github.io/miscellaneous-note/" data-title="Miscellaneous Note"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://SAYAKA-Konami.github.io/jvm-tuning/" data-title="JVM Tuning" data-via="xxxx" data-hashtags="Java,JVM"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://SAYAKA-Konami.github.io/jvm-tuning/" data-hashtag="Java"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://SAYAKA-Konami.github.io/jvm-tuning/" data-title="JVM Tuning"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://SAYAKA-Konami.github.io/jvm-tuning/" data-title="JVM Tuning"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://SAYAKA-Konami.github.io/jvm-tuning/" data-title="JVM Tuning"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
             </div>
         </div>
     </div>
 
     <div class="post-info-more">
-        <section class="post-tags"></section>
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/java/">Java</a>,&nbsp;<a href="/tags/jvm/">jvm</a></section>
         <section>
             <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
         </section>
     </div>
 
-    <div class="post-nav"><a href="/devops/" class="prev" rel="prev" title="Devops"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Devops</a>
-            <a href="/jvm-tuning/" class="next" rel="next" title="JVM Tuning">JVM Tuning<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+    <div class="post-nav"><a href="/miscellaneous-note/" class="prev" rel="prev" title="Miscellaneous Note"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Miscellaneous Note</a></div>
 </div>
 <script src="https://giscus.app/client.js"
         data-repo="SAYAKA-Konami/SAYAKA-Konami.github.io"
